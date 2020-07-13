@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pymuller',
-      version='0.0',
+      version='0.1',
       description='Muller plot generation in Python',
       packages=['pymuller'],
       author_email='boaz85@gmail.com',

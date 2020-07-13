@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 def _get_strains_ordering(adjacency_df):
 
-    children_by_parent = adjacency_df.groupby('Parent')['Identity'].apply(lambda x: list(sorted(list(x))))
+    children_by_parent = adjacency_df.groupby('Parent')['Identity'].apply(lambda x: list(sorted(x)))
 
     def get_inner_order(identity):
 
@@ -15,12 +15,7 @@ def _get_strains_ordering(adjacency_df):
         if len(d) == 0:
             return [identity, identity]
 
-        r = []
-
-        for s in d:
-            r += get_inner_order(s)
-
-        return [identity] + r + [identity]
+        return [identity] + sum([get_inner_order(s) for s in d], []) + [identity]
 
     order = []
 
@@ -38,9 +33,10 @@ def _muller_plot(populations_df, adjacency_df, smoothing_std=10, ax=None):
     x = populations_df['Generation'].unique()
 
     population_size_max = populations_df.groupby('Generation')['Population'].sum().max()
+    generations = populations_df['Generation'].max() - populations_df['Generation'].min()
 
     pivot = populations_df.pivot(index='Generation', columns='Identity', values='Population')
-    pivot = pivot.rolling(300, 20, True, 'gaussian').mean(std=smoothing_std).clip(0, population_size_max)
+    pivot = pivot.rolling(generations, 1, True, 'gaussian').mean(std=smoothing_std).clip(0, population_size_max)
 
     Y = pivot[ordering] / 2
     Y = np.array(Y.values.tolist()).T
