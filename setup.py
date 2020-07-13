@@ -5,5 +5,5 @@ setup(name='pymuller',
       description='Muller plot generation in Python',
       packages=['pymuller'],
       author_email='boaz85@gmail.com',
-      install_requires=['pandas', 'matplotlib'],
+      install_requires=['pandas', 'matplotlib', 'scipy'],
       zip_safe=False)
