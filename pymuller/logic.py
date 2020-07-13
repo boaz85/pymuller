@@ -10,12 +10,12 @@ def _get_strains_ordering(adjacency_df):
 
     def get_inner_order(identity):
 
-        d = children_by_parent.get(identity, [])
+        children_identities = children_by_parent.get(identity, [])
 
-        if len(d) == 0:
+        if len(children_identities) == 0:
             return [identity, identity]
 
-        return [identity] + sum([get_inner_order(s) for s in d], []) + [identity]
+        return [identity] + sum([get_inner_order(c) for c in children_identities], []) + [identity]
 
     order = []
 
@@ -26,11 +26,13 @@ def _get_strains_ordering(adjacency_df):
     return np.array(order)
 
 
-def _muller_plot(populations_df, adjacency_df, smoothing_std=10, ax=None):
+def _muller_plot(populations_df, adjacency_df, smoothing_std=10, normalize=False, ax=None):
 
     ordering = _get_strains_ordering(adjacency_df)
 
-    x = populations_df['Generation'].unique()
+    if normalize:
+        populations_df['Population'] = populations_df.groupby('Generation')['Population'].transform(lambda x:
+                                                                                                    x / x.sum())
 
     population_size_max = populations_df.groupby('Generation')['Population'].sum().max()
     generations = populations_df['Generation'].max() - populations_df['Generation'].min()
@@ -39,7 +41,8 @@ def _muller_plot(populations_df, adjacency_df, smoothing_std=10, ax=None):
     pivot = pivot.rolling(generations, 1, True, 'gaussian').mean(std=smoothing_std).clip(0, population_size_max)
 
     Y = pivot[ordering] / 2
-    Y = np.array(Y.values.tolist()).T
+    Y = Y.to_numpy().T
+    x = populations_df['Generation'].unique()
 
     normed = (ordering - ordering.min()) / (ordering.max() - ordering.min())
     colors = matplotlib.cm.terrain(normed)

@@ -29,7 +29,9 @@ Optional arguments:
 
 *smoothing_std* - To smooth things up, a rolling average with a gaussian kernel is applied to each strain frequencies variable. This parameter can be used to control the degree of smoothness.
   
-*ax* - an existing Matplotlib axis to plot on.
+*ax* - an existing Matplotlib axis to plot on.  
+  
+*normalize* - Normalize population sizes per generation.
 
 
 ## TODO
