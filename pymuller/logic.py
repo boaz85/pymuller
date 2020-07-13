@@ -51,3 +51,5 @@ def _muller_plot(populations_df, adjacency_df, smoothing_std=10, normalize=False
         fig, ax = plt.subplots()
 
     ax.stackplot(x, Y, colors=colors)
+    ax.set_xlabel('Time')
+    ax.set_ylabel('Frequency' if normalize else 'Abundance')
