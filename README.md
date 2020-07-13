@@ -1,4 +1,4 @@
-# MullerPy
+# PyMuller
 Muller plot generation in Python
 
 
