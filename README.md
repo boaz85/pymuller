@@ -1,6 +1,5 @@
 # PyMuller
-Muller plot generation in Python
-
+Muller plot generation in Python.  
 
 ## Installation
 
