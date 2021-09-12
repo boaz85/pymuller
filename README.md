@@ -32,6 +32,4 @@ Optional arguments:
   
 *normalize* - Normalize population sizes per generation.
 
-
-## TODO
-Add coloring functionality
+*color_by* - a Pandas series object, that maps identities (index) to colors (values). Colors are represented by numbers in some arbitrary range. The colormap argument determines the actual color of each identity.
