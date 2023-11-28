@@ -81,7 +81,7 @@ def _muller_plot(populations_df, adjacency_df, color_by, colormap='terrain', col
     else:
         fig = ax.figure if hasattr(ax, 'figure') else ax.fig
 
-    ax.stackplot(x, Y, colors=colors)
+    ax.stackplot(x.astype(np.float64), Y.astype(np.float64), colors=colors.astype(np.float64))
 
     if colorbar:
         cax = fig.add_axes([0.92, 0.13, 0.02, 0.7])
